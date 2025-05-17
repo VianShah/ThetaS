@@ -26,16 +26,11 @@
             </p>
 
             <div class="bg-white p-8 rounded-lg shadow-lg">
-                <form action="https://formsubmit.co/theta.sound.info@gmail.com" method="POST" class="space-y-4">
-                    <input type="text" name="_honey" style="display:none">
-                    
-                    <input type="hidden" name="_captcha" value="false">
-                    
-                    <input type="hidden" name="_next" value="https://formsubmit.co/thank-you">
-                    
+                <form id="emailForm" class="space-y-4">
                     <div>
                         <input
                             type="email"
+                            id="emailInput"
                             name="email"
                             placeholder="Enter your email address"
                             class="w-full px-4 py-3 rounded-lg text-gray-900 focus:ring-2 focus:ring-blue-500"
@@ -48,7 +43,7 @@
                     >
                         Subscribe Now
                     </button>
-                    <div id="formStatus" class="mt-4 text-sm text-center hidden"></div>
+                    <div id="formStatus" class="mt-4 text-sm text-center"></div>
                 </form>
             </div>
 
@@ -68,5 +63,47 @@
             </div>
         </div>
     </div>
+
+    <script>
+        document.getElementById('emailForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const email = document.getElementById('emailInput').value;
+            const statusDiv = document.getElementById('formStatus');
+            
+            // Simple validation
+            if (!email || !email.includes('@')) {
+                statusDiv.textContent = 'Please enter a valid email address';
+                statusDiv.className = 'mt-4 text-sm text-center text-red-600';
+                return;
+            }
+            
+            // Show loading state
+            statusDiv.textContent = 'Subscribing...';
+            statusDiv.className = 'mt-4 text-sm text-center text-blue-600';
+            
+            // Store email in localStorage as a simple database
+            const subscribers = JSON.parse(localStorage.getItem('subscribers') || '[]');
+            subscribers.push({
+                email: email,
+                date: new Date().toISOString()
+            });
+            localStorage.setItem('subscribers', JSON.stringify(subscribers));
+            
+            // Success message
+            setTimeout(() => {
+                statusDiv.textContent = 'Thank you for subscribing!';
+                statusDiv.className = 'mt-4 text-sm text-center text-green-600';
+                document.getElementById('emailInput').value = '';
+                
+                // Show count of subscribers
+                const count = subscribers.length;
+                const countMsg = document.createElement('div');
+                countMsg.textContent = `You are subscriber #${count}`;
+                countMsg.className = 'mt-2 text-xs text-gray-500';
+                statusDiv.appendChild(countMsg);
+            }, 1000);
+        });
+    </script>
 </body>
 </html> 
