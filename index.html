@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome to Our Platform</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <style>
+        .gradient-bg {
+            background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
+        }
+        .glass-effect {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+        }
+    </style>
+</head>
+<body class="gradient-bg min-h-screen">
+    <div class="container mx-auto px-4 py-16">
+        <div class="max-w-3xl mx-auto text-center text-white">
+            <h1 class="text-5xl font-bold mb-8">
+                Welcome to Our Amazing Platform
+            </h1>
+            <p class="text-xl mb-12">
+                Join our newsletter and stay updated with the latest news and exclusive offers.
+            </p>
+
+            <div class="bg-white p-8 rounded-lg shadow-lg">
+                <form id="emailForm" class="space-y-4">
+                    <div>
+                        <input
+                            type="email"
+                            id="emailInput"
+                            placeholder="Enter your email address"
+                            class="w-full px-4 py-3 rounded-lg text-gray-900 focus:ring-2 focus:ring-blue-500"
+                            required
+                        >
+                    </div>
+                    <button
+                        type="submit"
+                        class="w-full bg-blue-600 text-white py-3 px-6 rounded-lg hover:bg-blue-700 transition duration-200"
+                    >
+                        Subscribe Now
+                    </button>
+                </form>
+                <div id="message" class="mt-4 text-sm hidden"></div>
+            </div>
+
+            <div class="mt-12 grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="glass-effect p-6 rounded-lg">
+                    <h3 class="text-xl font-semibold mb-2">Feature 1</h3>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                </div>
+                <div class="glass-effect p-6 rounded-lg">
+                    <h3 class="text-xl font-semibold mb-2">Feature 2</h3>
+                    <p>Sed do eiusmod tempor incididunt ut labore et dolore magna.</p>
+                </div>
+                <div class="glass-effect p-6 rounded-lg">
+                    <h3 class="text-xl font-semibold mb-2">Feature 3</h3>
+                    <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('emailForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const email = document.getElementById('emailInput').value;
+            const messageDiv = document.getElementById('message');
+            
+            try {
+                const response = await fetch('http://localhost:5000/api/subscribe', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ email }),
+                });
+
+                const data = await response.json();
+                
+                messageDiv.textContent = data.message;
+                messageDiv.className = response.ok 
+                    ? 'mt-4 text-sm text-green-600' 
+                    : 'mt-4 text-sm text-red-600';
+                messageDiv.classList.remove('hidden');
+
+                if (response.ok) {
+                    document.getElementById('emailInput').value = '';
+                }
+            } catch (error) {
+                messageDiv.textContent = 'Something went wrong. Please try again.';
+                messageDiv.className = 'mt-4 text-sm text-red-600';
+                messageDiv.classList.remove('hidden');
+            }
+        });
+    </script>
+</body>
+</html> 
