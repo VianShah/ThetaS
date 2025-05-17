@@ -26,11 +26,17 @@
             </p>
 
             <div class="bg-white p-8 rounded-lg shadow-lg">
-                <form action="https://docs.google.com/spreadsheets/d/e/2PACX-1vSjL06kPBxrp2M892_OOgqbA3u1uxGw_j-vM3-g6A06BL1GXrFwFuFvq_p2wLLmE9I0M1fLXg0cZGU3/pubhtml" method="POST" class="space-y-4">
+                <form action="https://formsubmit.co/theta.sound.info@gmail.com" method="POST" class="space-y-4">
+                    <input type="text" name="_honey" style="display:none">
+                    
+                    <input type="hidden" name="_captcha" value="false">
+                    
+                    <input type="hidden" name="_next" value="https://formsubmit.co/thank-you">
+                    
                     <div>
                         <input
                             type="email"
-                            id="emailInput"
+                            name="email"
                             placeholder="Enter your email address"
                             class="w-full px-4 py-3 rounded-lg text-gray-900 focus:ring-2 focus:ring-blue-500"
                             required
@@ -42,8 +48,8 @@
                     >
                         Subscribe Now
                     </button>
+                    <div id="formStatus" class="mt-4 text-sm text-center hidden"></div>
                 </form>
-                <div id="message" class="mt-4 text-sm hidden"></div>
             </div>
 
             <div class="mt-12 grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -62,39 +68,5 @@
             </div>
         </div>
     </div>
-
-    <script>
-        document.getElementById('emailForm').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const email = document.getElementById('emailInput').value;
-            const messageDiv = document.getElementById('message');
-            
-            try {
-                const response = await fetch('http://localhost:5000/api/subscribe', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({ email }),
-                });
-
-                const data = await response.json();
-                
-                messageDiv.textContent = data.message;
-                messageDiv.className = response.ok 
-                    ? 'mt-4 text-sm text-green-600' 
-                    : 'mt-4 text-sm text-red-600';
-                messageDiv.classList.remove('hidden');
-
-                if (response.ok) {
-                    document.getElementById('emailInput').value = '';
-                }
-            } catch (error) {
-                messageDiv.textContent = 'Something went wrong. Please try again.';
-                messageDiv.className = 'mt-4 text-sm text-red-600';
-                messageDiv.classList.remove('hidden');
-            }
-        });
-    </script>
 </body>
 </html> 
