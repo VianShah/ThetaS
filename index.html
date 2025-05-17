@@ -13,6 +13,27 @@
             background: rgba(255, 255, 255, 0.1);
             backdrop-filter: blur(10px);
         }
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+        @media (max-width: 640px) {
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        .spreadsheet-container {
+            margin-top: 2rem;
+            padding: 1rem;
+            background-color: rgba(255, 255, 255, 0.8);
+            border-radius: 0.5rem;
+        }
+        .spreadsheet-container iframe {
+            width: 100%;
+            height: 400px;
+            border: none;
+        }
     </style>
 </head>
 <body class="gradient-bg min-h-screen">
@@ -32,15 +53,59 @@
                     <input type="hidden" name="_template" value="table">
                     <input type="hidden" name="_autoresponse" value="Thank you for subscribing to our newsletter!">
                     
+                    <div class="form-grid">
+                        <div>
+                            <input
+                                type="text"
+                                name="name"
+                                placeholder="First Name"
+                                class="w-full px-4 py-3 rounded-lg text-gray-900 focus:ring-2 focus:ring-blue-500"
+                                required
+                            >
+                        </div>
+                        <div>
+                            <input
+                                type="text"
+                                name="surname"
+                                placeholder="Last Name"
+                                class="w-full px-4 py-3 rounded-lg text-gray-900 focus:ring-2 focus:ring-blue-500"
+                                required
+                            >
+                        </div>
+                    </div>
+                    
                     <div>
                         <input
                             type="email"
                             name="email"
-                            placeholder="Enter your email address"
+                            placeholder="Email Address"
                             class="w-full px-4 py-3 rounded-lg text-gray-900 focus:ring-2 focus:ring-blue-500"
                             required
                         >
                     </div>
+                    
+                    <div>
+                        <select 
+                            name="excited_feature"
+                            class="w-full px-4 py-3 rounded-lg text-gray-900 focus:ring-2 focus:ring-blue-500"
+                            required
+                        >
+                            <option value="" disabled selected>Which feature are you most excited about?</option>
+                            <option value="Feature 1">Feature 1</option>
+                            <option value="Feature 2">Feature 2</option>
+                            <option value="Feature 3">Feature 3</option>
+                        </select>
+                    </div>
+                    
+                    <div>
+                        <input
+                            type="text"
+                            name="referral"
+                            placeholder="How did you hear about us?"
+                            class="w-full px-4 py-3 rounded-lg text-gray-900 focus:ring-2 focus:ring-blue-500"
+                        >
+                    </div>
+                    
                     <button
                         type="submit"
                         class="w-full bg-blue-600 text-white py-3 px-6 rounded-lg hover:bg-blue-700 transition duration-200"
@@ -63,6 +128,12 @@
                     <h3 class="text-xl font-semibold mb-2">Feature 3</h3>
                     <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco.</p>
                 </div>
+            </div>
+            
+            <!-- Google Sheets Embed -->
+            <div class="spreadsheet-container mt-12">
+                <h2 class="text-gray-800 text-2xl font-bold mb-4">Submission Data</h2>
+                <iframe src="https://docs.google.com/spreadsheets/d/e/2PACX-1vSjL06kPBxrp2M892_OOgqbA3u1uxGw_j-vM3-g6A06BL1GXrFwFuFvq_p2wLLmE9I0M1fLXg0cZGU3/pubhtml?widget=true&amp;headers=false"></iframe>
             </div>
         </div>
     </div>
